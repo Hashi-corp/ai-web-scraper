@@ -1,27 +1,21 @@
-import selenium.webdriver as webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-import time
+from selenium.webdriver import Remote, ChromeOptions
+from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection
+from selenium.webdriver.common.by import By
+
 
 def scrape_website(website):
     print("Launching web browser...")
+    AUTH = 'brd-customer-hl_1107a4c1-zone-scraping_browser1:f3owe6qho4un'
+    SBR_WEBDRIVER = f'https://{AUTH}@brd.superproxy.io:9515'
     
-    chrome_driver_path = ChromeDriverManager().install()
-    Options = webdriver.ChromeOptions()
-
-    driver = webdriver.Chrome(
-        service=Service(chrome_driver_path),
-        options=Options
-    )
-
-    try:
-        driver.get(website)
-        print("page loaded.")
-        time.sleep(5)
-        
+    print('Connecting to Browser API...')
+    sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, 'goog', 'chrome')
+    with Remote(sbr_connection, options=ChromeOptions()) as driver:
+        print('Connected! Navigating...')
+        driver.get('https://example.com')
+        print('Navigated! Scraping page content...')
         html = driver.page_source
-        return html
+        print(html)
     
-    finally:
-        driver.quit()
-
+if __name__ == '__main__':
+    scrape_website()
