@@ -12,10 +12,10 @@ def scrape_website(website):
     sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, 'goog', 'chrome')
     with Remote(sbr_connection, options=ChromeOptions()) as driver:
         print('Connected! Navigating...')
-        driver.get('https://example.com')
+        driver.get(website)
         print('Navigated! Scraping page content...')
         html = driver.page_source
-        print(html)
-    
+        return html
+
 if __name__ == '__main__':
     scrape_website()
