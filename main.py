@@ -32,7 +32,7 @@ if "dom_content" in  st.session_state:
     )
     
     api_key = st.text_input(
-        "Enter your Gemini API Key",
+        "Enter your API Key",
         type="password"
     )
 
